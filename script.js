@@ -59,12 +59,13 @@ function handleCardClick(cardElement, cardName) {
 
     const slot = document.getElementById(`slot-${slotIdx}`);
     const slotRect = slot.getBoundingClientRect();
-    const deckRect = deckContainer.getBoundingClientRect();
+    const deckRect = cardElement.getBoundingClientRect();
 
     // Calculate exact screen coordinates
-    const moveX = slotRect.left - deckRect.left + (slotRect.width / 2) - (cardElement.offsetWidth / 2);
-    const moveY = slotRect.top - deckRect.top;
+    const diffX = slotRect.left - cardRect.left;
+    const diffY = slotRect.top - cardRect.top;
 
+    cardElement.style.zIndex = 1000 + slotIdx;
     cardElement.style.transform = `translate(${moveX}px, ${moveY}px) rotate(0deg) scale(1.1)`;
     
     if (selectedCards.length === 1) instructions.innerText = "Now, the Present...";
