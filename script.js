@@ -62,10 +62,9 @@ function handleCardClick(cardElement, cardName) {
     const deckRect = deckContainer.getBoundingClientRect();
 
     // Calculate exact screen coordinates
-    const moveX = slotRect.left - (window.innerWidth / 2) + 35; 
+    const moveX = slotRect.left - deckRect.left + (slotRect.width / 2) - (cardElement.offsetWidth / 2);
     const moveY = slotRect.top - deckRect.top;
 
-    cardElement.style.zIndex = 500 + slotIdx;
     cardElement.style.transform = `translate(${moveX}px, ${moveY}px) rotate(0deg) scale(1.1)`;
     
     if (selectedCards.length === 1) instructions.innerText = "Now, the Present...";
@@ -80,14 +79,17 @@ function handleCardClick(cardElement, cardName) {
 function revealAndPredict() {
     selectedCards.forEach((item, i) => {
         setTimeout(() => {
+            // Hum JS se hi rotateY force karenge taaki transform override na ho
+            const currentTransform = item.element.style.transform.replace('rotateY(180deg)', '');
+            item.element.style.transform = currentTransform + " rotateY(180deg)";
             item.element.classList.add('is-flipped');
-        }, i * 300);
+        }, i * 400);
     });
 
     setTimeout(() => {
         document.getElementById('prediction-modal').classList.remove('hidden');
         getAIPrediction();
-    }, 1500);
+    }, 2000);
 }
 
 async function getAIPrediction() {
