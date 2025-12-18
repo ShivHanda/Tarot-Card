@@ -65,6 +65,7 @@ function handleCardClick(cardElement, cardName) {
     if (selectedCards.length >= 3 || cardElement.classList.contains('selected')) return;
 
     cardElement.classList.add('selected');
+    const slotIndex = selectedCards.length;
     selectedCards.push({ name: cardName, element: cardElement });
 
     const slotIndex = selectedCards.length - 1;
@@ -76,16 +77,16 @@ function handleCardClick(cardElement, cardName) {
     const moveX = slotRect.left - cardRect.left;
     const moveY = slotRect.top - cardRect.top;
 
-    cardElement.style.zIndex = 2000 + selectedCards.length;
-    cardElement.style.transform = `translate(${moveX}px, ${moveY}px) rotate(0deg) scale(1.1)`;
+    cardElement.style.zIndex = 100 + selectedCards.length;
+    cardElement.style.transform = `translate(${moveX}px, ${moveY}px) rotate(0deg)`;
     
     // Update Dynamic Captions
     if (selectedCards.length === 1) instructions.innerText = "Second card... what does the Present hold?";
     if (selectedCards.length === 2) instructions.innerText = "Final card... looking into the Future.";
     
     if (selectedCards.length === 3) {
-        instructions.innerText = "Selection complete. Reading the energies...";
-        setTimeout(revealAndPredict, 1200);
+        instructions.innerText = "The spirits are speaking...";
+        setTimeout(revealAndPredict, 800);
     }
 }
 
