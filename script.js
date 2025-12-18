@@ -1,3 +1,4 @@
+// Configuration
 const GEMINI_API_KEY = "AIzaSyCAKW9GMQbsZCcIdWtC8d12vqPe9mbxZeg";
 const CARD_BACK = 'assets/images/Tarot Card Cover Design.jpg';
 const deckContainer = document.getElementById('deck-container');
@@ -7,6 +8,7 @@ const responseContainer = document.getElementById('ai-response-text');
 let selectedCards = [];
 let allCards = [];
 
+// 1. Initial Load
 async function initDeck() {
     try {
         const response = await fetch('cards.json');
@@ -26,6 +28,7 @@ function shuffle(array) {
     }
 }
 
+// 2. Render Deck
 function renderDeck() {
     deckContainer.innerHTML = ''; 
     allCards.forEach((cardName, index) => {
@@ -50,6 +53,7 @@ function renderDeck() {
     });
 }
 
+// 3. Handle Click (Fixed Variables)
 function handleCardClick(cardElement, cardName) {
     if (selectedCards.length >= 3 || cardElement.classList.contains('selected')) return;
 
@@ -58,14 +62,16 @@ function handleCardClick(cardElement, cardName) {
     selectedCards.push({ name: cardName, element: cardElement });
 
     const slot = document.getElementById(`slot-${slotIdx}`);
+    
+    // Yahan variables fix kar diye hain
     const slotRect = slot.getBoundingClientRect();
-    const deckRect = cardElement.getBoundingClientRect();
+    const cardRect = cardElement.getBoundingClientRect();
 
-    // Calculate exact screen coordinates
-    const diffX = slotRect.left - cardRect.left;
-    const diffY = slotRect.top - cardRect.top;
+    const moveX = slotRect.left - cardRect.left;
+    const moveY = slotRect.top - cardRect.top;
 
     cardElement.style.zIndex = 1000 + slotIdx;
+    // translate mein moveX aur moveY hi use kiya hai
     cardElement.style.transform = `translate(${moveX}px, ${moveY}px) rotate(0deg) scale(1.1)`;
     
     if (selectedCards.length === 1) instructions.innerText = "Now, the Present...";
@@ -77,10 +83,10 @@ function handleCardClick(cardElement, cardName) {
     }
 }
 
+// 4. Reveal Animation
 function revealAndPredict() {
     selectedCards.forEach((item, i) => {
         setTimeout(() => {
-            // Hum JS se hi rotateY force karenge taaki transform override na ho
             const currentTransform = item.element.style.transform.replace('rotateY(180deg)', '');
             item.element.style.transform = currentTransform + " rotateY(180deg)";
             item.element.classList.add('is-flipped');
@@ -93,6 +99,7 @@ function revealAndPredict() {
     }, 2000);
 }
 
+// 5. AI Prediction
 async function getAIPrediction() {
     responseContainer.innerHTML = '<p class="typing">Reading the stars...</p>';
     const promptText = `You are a Tarot Reader. Cards: Past: ${selectedCards[0].name}, Present: ${selectedCards[1].name}, Future: ${selectedCards[2].name}. Write a 3-paragraph mystical reading without bold or special characters.`;
