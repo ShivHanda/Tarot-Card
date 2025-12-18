@@ -54,6 +54,7 @@ function renderDeck() {
 }
 
 // 3. Handle Click (Fixed Variables)
+
 function handleCardClick(cardElement, cardName) {
     if (selectedCards.length >= 3 || cardElement.classList.contains('selected')) return;
 
@@ -63,24 +64,32 @@ function handleCardClick(cardElement, cardName) {
 
     const slot = document.getElementById(`slot-${slotIdx}`);
     
-    // Yahan variables fix kar diye hain
-    const slotRect = slot.getBoundingClientRect();
-    const cardRect = cardElement.getBoundingClientRect();
-
-    const moveX = slotRect.left - cardRect.left;
-    const moveY = slotRect.top - cardRect.top;
-
-    cardElement.style.zIndex = 1000 + slotIdx;
-    // translate mein moveX aur moveY hi use kiya hai
-    cardElement.style.transform = `translate(${moveX}px, ${moveY}px) rotate(0deg) scale(1.1)`;
+    // 1. Pehle card ki purani styling/rotation ko reset karein
+    // Isse card "calculate" hone ke liye taiyaar ho jayega
+    cardElement.style.transform = "none"; 
     
-    if (selectedCards.length === 1) instructions.innerText = "Now, the Present...";
-    if (selectedCards.length === 2) instructions.innerText = "And finally, the Future.";
-    
-    if (selectedCards.length === 3) {
-        instructions.innerText = "The spirits are revealing your path...";
-        setTimeout(revealAndPredict, 1000);
-    }
+    // Ek chota sa delay taaki browser reset ko register kar le
+    setTimeout(() => {
+        const slotRect = slot.getBoundingClientRect();
+        const cardRect = cardElement.getBoundingClientRect();
+
+        // 2. Exact difference calculate karein
+        const moveX = slotRect.left - cardRect.left;
+        const moveY = slotRect.top - cardRect.top;
+
+        // 3. Card ko slot par bhein aur scale thoda bada karein
+        cardElement.style.zIndex = 1000 + slotIdx;
+        cardElement.style.transform = `translate(${moveX}px, ${moveY}px) rotate(0deg) scale(1.1)`;
+        
+        // 4. Instructions update
+        if (selectedCards.length === 1) instructions.innerText = "Now, the Present...";
+        if (selectedCards.length === 2) instructions.innerText = "And finally, the Future.";
+        
+        if (selectedCards.length === 3) {
+            instructions.innerText = "The spirits are revealing your path...";
+            setTimeout(revealAndPredict, 1000);
+        }
+    }, 10); // 10ms ka delay kaafi hai
 }
 
 // 4. Reveal Animation
