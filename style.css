@@ -10,6 +10,7 @@ body {
     margin: 0;
     min-height: 100vh;
     overflow-x: hidden;
+    text-align: center;
 }
 
 #app-container {
@@ -23,36 +24,42 @@ body {
     text-shadow: 0 0 15px var(--gold);
     color: var(--gold);
     letter-spacing: 3px;
+    margin-bottom: 5px;
 }
 
-/* Slots for selection */
 #selection-area {
     display: flex;
-    gap: 30px;
-    margin: 40px 0;
-}
-
-.slot-container {
-    text-align: center;
+    gap: 15px;
+    margin: 20px 0;
+    z-index: 5;
 }
 
 .slot {
-    width: 85px;
-    height: 145px;
-    border: 2px dashed rgba(212, 175, 55, 0.3);
-    border-radius: 10px;
-    position: relative;
-    transition: all 0.3s ease;
+    width: 70px;
+    height: 110px;
+    border: 1px dashed var(--gold);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
 }
 
-/* Card Styling */
+#deck-container {
+    position: relative;
+    width: 100%;
+    height: 250px;
+    margin-top: 40px;
+    perspective: 1000px;
+}
+
+/* Card Style */
 .card {
     position: absolute;
-    width: 80px;
-    height: 140px;
+    width: 70px;
+    height: 110px;
     cursor: pointer;
     transform-style: preserve-3d;
-    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), top 0.5s ease, left 0.5s ease;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), left 0.8s ease, top 0.8s ease;
+    left: 50%;
+    margin-left: -35px; /* Centers the card shuruat mein */
 }
 
 .card-face {
@@ -60,9 +67,16 @@ body {
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-    border: 1px solid rgba(212, 175, 55, 0.2);
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.card-face img {
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
+    object-fit: cover;
 }
 
 .card-front {
@@ -73,34 +87,27 @@ body {
     transform: rotateY(180deg);
 }
 
-/* Deck Container (The Fan) */
-#deck-container {
-    position: relative;
-    height: 200px; /* Height kam ki */
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-    perspective: 1000px;
-}
-
-/* Modal Styling */
-.modal.hidden { display: none; }
+/* Modal Layering */
 .modal {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.95);
+    background: rgba(0,0,0,0.9);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 9999; /* Isse cards ke upar aayega */
+    z-index: 10000; /* Sabse upar */
 }
 
+.modal.hidden { display: none; }
+
 .modal-content {
-    background: #16161a;
-    padding: 30px;
+    background: #111;
+    padding: 25px;
     border: 2px solid var(--gold);
-    max-width: 600px;
-    border-radius: 15px;
-    text-align: center;
+    max-width: 90%;
+    width: 450px;
+    border-radius: 12px;
 }
+
+.gold-line { border: 0; border-top: 1px solid var(--gold); margin: 15px 0; }
+.close-btn { float: right; cursor: pointer; font-size: 24px; color: var(--gold); }
