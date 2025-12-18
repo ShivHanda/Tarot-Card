@@ -63,35 +63,30 @@ function handleCardClick(cardElement, cardName) {
     selectedCards.push({ name: cardName, element: cardElement });
 
     const slot = document.getElementById(`slot-${slotIdx}`);
-    
-    // 1. Pehle card ki purani styling/rotation ko reset karein
-    // Isse card "calculate" hone ke liye taiyaar ho jayega
-    cardElement.style.transform = "none"; 
-    
-    // Ek chota sa delay taaki browser reset ko register kar le
-    setTimeout(() => {
-        const slotRect = slot.getBoundingClientRect();
-        const cardRect = cardElement.getBoundingClientRect();
+    const slotRect = slot.getBoundingClientRect();
+    const deckRect = deckContainer.getBoundingClientRect();
 
-        // 2. Exact difference calculate karein
-        const moveX = slotRect.left - cardRect.left;
-        const moveY = slotRect.top - cardRect.top;
+    // --- MAGIC CALCULATION ---
+    // 1. Hum slot ki position lete hain screen ke center ke hisaab se
+    // 2. 35 isliye kyunki card width (70px) ka aadha hai, taaki center match ho
+    const moveX = slotRect.left - (window.innerWidth / 2) + (slotRect.width / 2); 
+    
+    // 3. Deck container se slot kitna upar hai
+    const moveY = slotRect.top - deckRect.top;
 
-        // 3. Card ko slot par bhein aur scale thoda bada karein
-        cardElement.style.zIndex = 1000 + slotIdx;
-        cardElement.style.transform = `translate(${moveX}px, ${moveY}px) rotate(0deg) scale(1.1)`;
-        
-        // 4. Instructions update
-        if (selectedCards.length === 1) instructions.innerText = "Now, the Present...";
-        if (selectedCards.length === 2) instructions.innerText = "And finally, the Future.";
-        
-        if (selectedCards.length === 3) {
-            instructions.innerText = "The spirits are revealing your path...";
-            setTimeout(revealAndPredict, 1000);
-        }
-    }, 10); // 10ms ka delay kaafi hai
+    cardElement.style.zIndex = 1000 + slotIdx;
+    
+    // Rotation ko 0 karna zaroori hai taaki slot mein card seedha dikhe
+    cardElement.style.transform = `translate(${moveX}px, ${moveY}px) rotate(0deg) scale(1.1)`;
+    
+    if (selectedCards.length === 1) instructions.innerText = "Now, the Present...";
+    if (selectedCards.length === 2) instructions.innerText = "And finally, the Future.";
+    
+    if (selectedCards.length === 3) {
+        instructions.innerText = "The spirits are revealing your path...";
+        setTimeout(revealAndPredict, 1000);
+    }
 }
-
 // 4. Reveal Animation
 function revealAndPredict() {
     selectedCards.forEach((item, i) => {
