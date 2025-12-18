@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mystic AI Tarot | Discover Your Destiny</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://openfpcdn.io/fingerprintjs/v4"></script>
+</head>
+<body>
+
+    <div class="stars-overlay"></div>
+
+    <div id="app-container">
+        <header>
+            <h1 class="glow-text">Mystic AI Tarot</h1>
+            <p id="instructions" class="fade-in">Focus on your question and shuffle the deck...</p>
+        </header>
+
+        <div id="selection-area">
+            <div class="slot-container">
+                <div class="slot" id="slot-0"></div>
+                <label>Past</label>
+            </div>
+            <div class="slot-container">
+                <div class="slot" id="slot-1"></div>
+                <label>Present</label>
+            </div>
+            <div class="slot-container">
+                <div class="slot" id="slot-2"></div>
+                <label>Future</label>
+            </div>
+        </div>
+
+        <div id="deck-container">
+            <div id="loader" class="mystic-spinner"></div>
+        </div>
+
+        <div id="prediction-modal" class="modal hidden">
+            <div class="modal-overlay"></div>
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModal()">&times;</span>
+                <h2 class="cinzel-font">The Oracle Speaks</h2>
+                <hr class="gold-line">
+                <div id="ai-response-text">
+                    <p class="typing">Connecting with the cosmic energies...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="supabase-config.js"></script>
+</body>
+</html>
