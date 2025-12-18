@@ -37,8 +37,8 @@ body {
 }
 
 .slot {
-    width: 120px;
-    height: 200px;
+    width: 85px;
+    height: 145px;
     border: 2px dashed rgba(212, 175, 55, 0.3);
     border-radius: 10px;
     position: relative;
@@ -48,11 +48,11 @@ body {
 /* Card Styling */
 .card {
     position: absolute;
-    width: 120px;
-    height: 200px;
+    width: 80px;
+    height: 140px;
     cursor: pointer;
     transform-style: preserve-3d;
-    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), top 0.5s ease;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), top 0.5s ease, left 0.5s ease;
 }
 
 .card-face {
@@ -76,11 +76,12 @@ body {
 /* Deck Container (The Fan) */
 #deck-container {
     position: relative;
-    height: 300px;
+    height: 200px; /* Height kam ki */
     width: 100%;
     display: flex;
     justify-content: center;
-    margin-top: 50px;
+    margin-top: 20px;
+    perspective: 1000px;
 }
 
 /* Modal Styling */
@@ -88,11 +89,11 @@ body {
 .modal {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.9);
+    background: rgba(0,0,0,0.95);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 9999; /* Isse cards ke upar aayega */
 }
 
 .modal-content {
