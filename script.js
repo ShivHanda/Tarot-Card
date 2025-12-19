@@ -1,7 +1,4 @@
 // Configuration
-const part1 = "AIzaSyCAKW9GMQbsZCc";
-const part2 = "IdWtC8d12vqPe9mbxZeg"; 
-const GEMINI_API_KEY = part1 + part2;
 const CARD_BACK = 'assets/images/Tarot Card Cover Design.jpg';
 const deckContainer = document.getElementById('deck-container');
 const instructions = document.getElementById('instructions');
@@ -135,15 +132,22 @@ async function getAIPrediction() {
     const promptText = `You are a Tarot Reader. Cards: Past: ${selectedCards[0].name}, Present: ${selectedCards[1].name}, Future: ${selectedCards[2].name}. Write a 3-paragraph mystical reading without bold or special characters.`;
 
     try {
-        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+        // Hum direct Google ko call nahi kar rahe, Netlify function ko call kar rahe hain
+        const res = await fetch('/.netlify/functions/getPrediction', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
+            body: JSON.stringify({ prompt: promptText })
         });
+        
         const data = await res.json();
-        const text = data.candidates[0].content.parts[0].text;
-        typeWriter(text, responseContainer);
+        
+        if (data.candidates && data.candidates[0]) {
+            const text = data.candidates[0].content.parts[0].text;
+            typeWriter(text, responseContainer);
+        } else {
+            throw new Error("Invalid Response");
+        }
     } catch (e) {
+        console.error("Proxy Error:", e);
         responseContainer.innerText = "The connection to the beyond was lost. Try again.";
     }
 }
