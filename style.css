@@ -54,14 +54,15 @@ body {
 /* Card Style */
 .card {
     position: absolute;
-    width: 65px;  
-    height: 105px; 
-    cursor: pointer;
-    transform-style: preserve-3d;
-    transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1); /* Animation slow and smooth */
+    width: 65px;
+    height: 110px;
     left: 50%;
     margin-left: -32.5px;
+    cursor: pointer;
     z-index: 10;
+    transform-style: preserve-3d;
+    /* Transition from code 1 + cursor from code 2 */
+    transition: all 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .card-face {
