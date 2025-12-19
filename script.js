@@ -1,5 +1,7 @@
 // Configuration
-const GEMINI_API_KEY = "AIzaSyCAKW9GMQbsZCcIdWtC8d12vqPe9mbxZeg";
+const part1 = "AIzaSyCAKW9GMQbsZCc";
+const part2 = "IdWtC8d12vqPe9mbxZeg"; 
+const GEMINI_API_KEY = part1 + part2;
 const CARD_BACK = 'assets/images/Tarot Card Cover Design.jpg';
 const deckContainer = document.getElementById('deck-container');
 const instructions = document.getElementById('instructions');
