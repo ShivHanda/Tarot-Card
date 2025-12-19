@@ -76,10 +76,10 @@ function handleCardClick(cardElement, cardName) {
     // --- MAGIC CALCULATION ---
     // 1. Hum slot ki position lete hain screen ke center ke hisaab se
     // 2. 35 isliye kyunki card width (70px) ka aadha hai, taaki center match ho
-    const moveX = slotRect.left - (window.innerWidth / 2) + (slotRect.width / 2); 
+    const moveX = slotRect.left - (window.innerWidth / 2) + (slotRect.width / 2) + 5; 
     
     // 3. Deck container se slot kitna upar hai
-    const moveY = slotRect.top - deckRect.top;
+    const moveY = slotRect.top - deckRect.top + 10;
 
     cardElement.style.zIndex = 1000 + slotIdx;
     
