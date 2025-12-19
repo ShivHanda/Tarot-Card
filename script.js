@@ -132,23 +132,30 @@ async function getAIPrediction() {
     const promptText = `You are a Tarot Reader. Cards: Past: ${selectedCards[0].name}, Present: ${selectedCards[1].name}, Future: ${selectedCards[2].name}. Write a 3-paragraph mystical reading without bold or special characters.`;
 
     try {
-        // Hum direct Google ko call nahi kar rahe, Netlify function ko call kar rahe hain
         const res = await fetch('/.netlify/functions/getPrediction', {
             method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ prompt: promptText })
         });
         
         const data = await res.json();
         
+        // Agar Netlify se koi error message aaya hai toh woh console mein dikhega
+        if (data.error) {
+            console.error("Netlify Function Error:", data.error);
+            throw new Error(data.error);
+        }
+
         if (data.candidates && data.candidates[0]) {
             const text = data.candidates[0].content.parts[0].text;
             typeWriter(text, responseContainer);
         } else {
-            throw new Error("Invalid Response");
+            console.log("Full Data from Netlify:", data);
+            throw new Error("Invalid Response Structure");
         }
     } catch (e) {
-        console.error("Proxy Error:", e);
-        responseContainer.innerText = "The connection to the beyond was lost. Try again.";
+        console.error("Fetch/Proxy Error:", e);
+        responseContainer.innerText = "The Oracle is silent. Check if the API Key is set in Netlify.";
     }
 }
 
