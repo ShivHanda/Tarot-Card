@@ -96,18 +96,37 @@ function handleCardClick(cardElement, cardName) {
 }
 // 4. Reveal Animation
 function revealAndPredict() {
+    // 1. Pehle subtitle ko change karein (Mystical feel ke liye)
+    instructions.style.opacity = "0"; // Chota sa fade out effect
+    setTimeout(() => {
+        instructions.innerText = "The Oracle is reading your cards...";
+        instructions.style.opacity = "1";
+    }, 300);
+
+    // 2. Cards ko flip karna (Staggered effect)
+    // 0.4s (400ms) ka gap perfect hai, isse teeno cards 1.2 seconds mein flip ho jayenge
     selectedCards.forEach((item, i) => {
         setTimeout(() => {
-            const currentTransform = item.element.style.transform.replace('rotateY(180deg)', '');
-            item.element.style.transform = currentTransform + " rotateY(180deg)";
+            // Transform ko safely update karna bina movement bigade
+            const currentTransform = item.element.style.transform.replace('rotateY(180deg)', '').trim();
+            item.element.style.transform = `${currentTransform} rotateY(180deg)`;
             item.element.classList.add('is-flipped');
-        }, i * 400);
+        }, i * 400); 
     });
 
+    // 3. Intentional Delay (3.5 Seconds total)
+    // Calculation: 1.2s (flipping time) + 2.3s (user observing the cards)
     setTimeout(() => {
-        document.getElementById('prediction-modal').classList.remove('hidden');
+        // Modal dikhane se pehle subtitle ko final state mein laayein
+        instructions.innerText = "The energies have aligned.";
+        
+        // Modal open karein
+        const modal = document.getElementById('prediction-modal');
+        modal.classList.remove('hidden');
+        
+        // AI reading shuru karein
         getAIPrediction();
-    }, 2000);
+    }, 3500); 
 }
 
 // 5. AI Prediction
