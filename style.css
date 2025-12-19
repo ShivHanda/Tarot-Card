@@ -35,8 +35,8 @@ body {
 }
 
 .slot {
-    width: 70px;
-    height: 110px;
+    width: 80px;
+    height: 130px;
     border: 1.5px solid var(--gold);
     background: rgba(212, 175, 55, 0.1); /* Halka gold tint */
     border-radius: 8px;
