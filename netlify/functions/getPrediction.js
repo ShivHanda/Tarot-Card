@@ -1,10 +1,11 @@
-const fetch = require('node-fetch');
-
 exports.handler = async (event) => {
     try {
         const { prompt } = JSON.parse(event.body);
-        // Yeh line Netlify ke ENV se key uthayegi
         const API_KEY = process.env.GEMINI_API_KEY; 
+
+        if (!API_KEY) {
+            return { statusCode: 500, body: JSON.stringify({ error: "API Key missing in Netlify" }) };
+        }
 
         const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
@@ -18,12 +19,13 @@ exports.handler = async (event) => {
         
         return {
             statusCode: 200,
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data)
         };
     } catch (error) {
         return { 
             statusCode: 500, 
-            body: JSON.stringify({ error: "API Call Failed", details: error.message }) 
+            body: JSON.stringify({ error: "Failed to fetch", details: error.message }) 
         };
     }
 };
