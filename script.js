@@ -37,21 +37,26 @@ function renderDeck() {
         const cardDiv = document.createElement('div');
         cardDiv.className = 'card';
         
-        const total = allCards.length;
-        const angle = (index - total/2) * 2;
-        const xPos = (index - total/2) * 4;
-        const yPos = Math.abs(index - total/2) * 0.5;
-
-        cardDiv.style.transform = `translateX(${xPos}px) translateY(${yPos}px) rotate(${angle}deg)`;
+        // Initial state: Saare cards ek ke upar ek (Stack)
+        cardDiv.style.transform = `translateY(0) rotate(0deg)`;
         cardDiv.style.zIndex = index;
 
         cardDiv.innerHTML = `
             <div class="card-face card-back"><img src="${CARD_BACK}"></div>
             <div class="card-face card-front"><img src="assets/images/${cardName}.jpg"></div>
         `;
-
+        
         cardDiv.onclick = () => handleCardClick(cardDiv, cardName);
         deckContainer.appendChild(cardDiv);
+
+        // Chota sa delay taaki stack se fan bante hue dikhe
+        setTimeout(() => {
+            const total = allCards.length;
+            const angle = (index - total/2) * 2;
+            const xPos = (index - total/2) * 4;
+            const yPos = Math.abs(index - total/2) * 0.5;
+            cardDiv.style.transform = `translateX(${xPos}px) translateY(${yPos}px) rotate(${angle}deg)`;
+        }, 500); // 0.5 second baad fan phelega
     });
 }
 
