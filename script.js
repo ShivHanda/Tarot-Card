@@ -142,7 +142,7 @@ async function getAIPrediction() {
     const payload = {
         contents: [{
             parts: [{
-                text: `You are a Tarot Reader. Cards selected by the seeker: Past: ${selectedCards[0].name}, Present: ${selectedCards[1].name}, Future: ${selectedCards[2].name}. Write a 3-paragraph mystical reading based on these cards. Avoid bold, special characters, or hashtags.`
+                text: `You are a Tarot Card Reader. Cards selected by the seeker: Past: ${selectedCards[0].name}, Present: ${selectedCards[1].name}, Future: ${selectedCards[2].name}.Based on these selected cards, Write a short mystical reading based on these cards. The predictions must be interesting, spicy and more focussed on the future side.`
             }]
         }]
     };
