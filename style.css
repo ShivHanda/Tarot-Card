@@ -112,5 +112,29 @@ body {
     border-radius: 12px;
 }
 
+/* AI Reading Text Area */
+#ai-response-text {
+    color: #f0f0f0;
+    font-family: 'Cinzel', serif;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    text-align: left; /* Mystical readings left-aligned zyada achhi lagti hain */
+    max-height: 250px; /* Isse zyada bada hua toh scrollbar aa jayega */
+    overflow-y: auto;  /* Scrolling enabled */
+    padding: 10px 5px;
+    margin-top: 10px;
+    white-space: pre-line; /* Paragraphs aur line breaks ko respect karega */
+}
+
+/* Scrollbar ko thoda gold look dene ke liye (Optional par cool hai) */
+#ai-response-text::-webkit-scrollbar {
+    width: 4px;
+}
+
+#ai-response-text::-webkit-scrollbar-thumb {
+    background: var(--gold);
+    border-radius: 10px;
+}
+
 .gold-line { border: 0; border-top: 1px solid var(--gold); margin: 15px 0; }
 .close-btn { float: right; cursor: pointer; font-size: 24px; color: var(--gold); }
