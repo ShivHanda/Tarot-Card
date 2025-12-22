@@ -1,21 +1,22 @@
 // netlify/functions/getPrediction.js
-const fetch = require('node-fetch'); // Agar error aaye toh ise hata dena
-
 exports.handler = async (event) => {
     const API_KEY = process.env.GEMINI_API_KEY;
 
     if (!API_KEY) {
-        return { statusCode: 500, body: JSON.stringify({ error: "Key missing" }) };
+        return { 
+            statusCode: 500, 
+            body: JSON.stringify({ error: "API Key missing in Netlify Dashboard" }) 
+        };
     }
 
+    // Google Gemini API v1 URL
     const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
     try {
-        // Hum frontend se bheja hua body (jo contents format mein hai) direct pass karenge
         const response = await fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: event.body 
+            body: event.body // Frontend se bheja JSON payload yahan se jayega
         });
 
         const data = await response.json();
@@ -26,6 +27,9 @@ exports.handler = async (event) => {
             body: JSON.stringify(data)
         };
     } catch (error) {
-        return { statusCode: 500, body: JSON.stringify({ error: error.message }) };
+        return { 
+            statusCode: 500, 
+            body: JSON.stringify({ error: "Server Error", message: error.message }) 
+        };
     }
 };
