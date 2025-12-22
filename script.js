@@ -142,7 +142,7 @@ async function getAIPrediction() {
     const payload = {
         contents: [{
             parts: [{
-                text: `You are a Tarot Card Reader. Cards selected by the seeker: Past: ${selectedCards[0].name}, Present: ${selectedCards[1].name}, Future: ${selectedCards[2].name}.Based on these selected cards, Write a short mystical reading based on these cards. The predictions must be interesting, spicy and more focussed on the future side.`
+                text: `You are a Tarot Card Reader. Cards selected by the seeker: Past: ${selectedCards[0].name}, Present: ${selectedCards[1].name}, Future: ${selectedCards[2].name}.Based on these selected cards, give a short mystical reading based on these cards (not more than 100 Words). The predictions must be interesting and spicy. Keep the tone mystical but concise.`
             }]
         }]
     };
