@@ -118,7 +118,7 @@ body {
     font-family: 'Cinzel', serif;
     font-size: 0.95rem;
     line-height: 1.6;
-    text-align: left; /* Mystical readings left-aligned zyada achhi lagti hain */
+    text-align: justify; 
     max-height: 250px; /* Isse zyada bada hua toh scrollbar aa jayega */
     overflow-y: auto;  /* Scrolling enabled */
     padding: 10px 5px;
