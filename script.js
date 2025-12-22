@@ -126,44 +126,6 @@ function revealAndPredict() {
     }, 3500); 
 }
 
-// 5. AI Prediction
-async function getAIPrediction() {
-    responseContainer.innerHTML = '<p class="typing">Reading the stars...</p>';
-    
-    // Google Gemini format structure
-    const payload = {
-        contents: [{
-            parts: [{
-                text: `You are a Tarot Reader. Cards: Past: ${selectedCards[0].name}, Present: ${selectedCards[1].name}, Future: ${selectedCards[2].name}. Write a 3-paragraph mystical reading without bold or special characters.`
-            }]
-        }]
-    };
-
-    try {
-        const res = await fetch('/.netlify/functions/getPrediction', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload) // Pura structure bhej rahe hain
-        });
-        
-        const data = await res.json();
-        
-        if (data.error) {
-            throw new Error(data.error.message || "API Error");
-        }
-
-        if (data.candidates && data.candidates[0]) {
-            const text = data.candidates[0].content.parts[0].text;
-            typeWriter(text, responseContainer);
-        } else {
-            throw new Error("Mystical energies are blocked. Try again.");
-        }
-    } catch (e) {
-        console.error("Oracle Error:", e);
-        responseContainer.innerText = "The Oracle is silent. " + e.message;
-    }
-}
-
 function typeWriter(text, el) {
     el.innerHTML = ""; let i = 0;
     function type() {
@@ -171,6 +133,52 @@ function typeWriter(text, el) {
     }
     type();
 }
+
+// 5. AI Prediction
+async function getAIPrediction() {
+    responseContainer.innerHTML = '<p class="typing">Reading the stars...</p>';
+    
+    // Exact structure that Google Gemini expects
+    const payload = {
+        contents: [{
+            parts: [{
+                text: `You are a Tarot Reader. Cards selected by the seeker: Past: ${selectedCards[0].name}, Present: ${selectedCards[1].name}, Future: ${selectedCards[2].name}. Write a 3-paragraph mystical reading based on these cards. Avoid bold, special characters, or hashtags.`
+            }]
+        }]
+    };
+
+    try {
+        // Calling our Netlify proxy function
+        const res = await fetch('/.netlify/functions/getPrediction', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload) 
+        });
+        
+        const data = await res.json();
+        
+        // Handling API errors from Gemini
+        if (data.error) {
+            console.error("Gemini API Error:", data.error);
+            throw new Error(data.error.message || "The stars are unclear right now.");
+        }
+
+        // Checking if we got a valid response back
+        if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+            const text = data.candidates[0].content.parts[0].text;
+            typeWriter(text, responseContainer);
+        } else {
+            console.log("Unexpected data structure:", data);
+            throw new Error("Mystical energies are blocked. Please try again.");
+        }
+    } catch (e) {
+        console.error("Oracle Error:", e);
+        // Displaying a user-friendly error
+        responseContainer.innerText = "The Oracle is silent. " + e.message;
+    }
+}
+
+
 
 function closeModal() {
     document.getElementById('prediction-modal').classList.add('hidden');
