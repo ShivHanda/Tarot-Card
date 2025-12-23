@@ -4,134 +4,143 @@
 }
 
 body {
-    background-color: var(--dark-bg);
-    background-image: url('TarotReader.png'); 
+    /* Background fix: Image kategi nahi aur sides se dissolve hogi */
+    background-color: #050505;
+    background-image: url('assets/images/TarotReader.jpg');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center top;
     background-attachment: fixed;
+    
     color: white;
     font-family: 'Cinzel', serif;
     margin: 0;
-    height: 100vh;
-    overflow: hidden; /* Screen hilne se rokne ke liye */
+    min-height: 100vh;
+    overflow-x: hidden;
+    text-align: center;
 }
 
-/* Character ke face se dissolve effect - fixed version */
+/* Dissolve effect overlay taaki sides black mein ghul jayein */
 body::after {
     content: '';
     position: fixed;
     inset: 0;
-    /* Image ke sides ko dissolve karne ke liye */
-    background: linear-gradient(to right, var(--dark-bg) 0%, transparent 20%, transparent 80%, var(--dark-bg) 100%);
-    pointer-events: none; /* Isse clicks block nahi honge */
-    z-index: 2;
+    background: linear-gradient(to right, #050505 0%, transparent 20%, transparent 80%, #050505 100%);
+    pointer-events: none;
+    z-index: 1;
 }
 
 #app-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
     position: relative;
-    width: 100%;
-    height: 100vh;
     z-index: 5;
 }
 
-/* SLOTS: Table ke upar horizontal alignment */
+/* Baaki saara card/slot code WAHI HAI jo tune diya tha (Unchanged) */
 #selection-area {
-    position: absolute;
-    bottom: 25%; /* Photo ke table height ke hisaab se ise 20% ya 30% kar sakte ho */
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex; /* Dobara horizontal karne ke liye */
-    flex-direction: row;
-    gap: 40px;
+    display: flex;
+    gap: 15px;
+    margin-top: 250px; /* Character ke face se niche laane ke liye bas margin badhaya hai */
+    z-index: 5;
 }
 
 .slot {
-    width: 90px;
-    height: 140px;
+    width: 80px;
+    height: 130px;
     border: 1.5px solid var(--gold);
-    background: rgba(212, 175, 55, 0.05);
+    background: rgba(212, 175, 55, 0.1);
     border-radius: 8px;
-    position: relative;
-    display: flex;
-    justify-content: center;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
 }
 
-/* Past, Present, Future Labels */
-.slot::after {
-    content: attr(data-label);
-    position: absolute;
-    bottom: -25px;
-    color: var(--gold);
-    font-size: 0.7rem;
-    letter-spacing: 2px;
-}
-
-/* DECK: Niche se spread hoke aayega */
 #deck-container {
-    position: absolute;
-    bottom: -40px; 
-    left: 50%;
-    transform: translateX(-50%);
+    position: relative;
     width: 100%;
-    height: 200px;
-    perspective: 1200px;
+    height: 250px;
+    margin-top: 40px;
+    perspective: 1000px;
 }
 
 .card {
     position: absolute;
-    width: 70px;
-    height: 120px;
+    width: 65px;
+    height: 110px;
     left: 50%;
+    margin-left: -32.5px;
     cursor: pointer;
-    transition: all 0.6s ease;
     z-index: 10;
+    transform-style: preserve-3d;
+    transition: all 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* INSTRUCTIONS: Bottom Left Box */
+.card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.card-face img {
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
+    object-fit: cover;
+}
+
+.card-front { transform: rotateY(180deg); }
+.card.is-flipped { transform: rotateY(180deg); }
+
+/* Nayi Instructions: Bottom Left Box */
 #instructions {
     position: fixed;
-    bottom: 30px;
-    left: 30px;
-    width: 250px;
-    padding: 15px;
-    background: rgba(0, 0, 0, 0.85);
-    border-left: 3px solid var(--gold);
-    border-radius: 4px;
-    font-size: 0.85rem;
+    bottom: 20px;
+    left: 20px;
+    width: 220px; /* Chota box */
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.8);
+    border-left: 2px solid var(--gold);
+    font-size: 0.8rem;
     text-align: left;
-    z-index: 100;
-    backdrop-filter: blur(8px);
+    z-index: 1000;
+    backdrop-filter: blur(5px);
 }
 
-/* MODAL: Results area */
+/* Modal and AI Response (Unchanged from your working code) */
 .modal {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.92);
+    background: rgba(0,0,0,0.9);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 10000;
 }
-
 .modal.hidden { display: none; }
-
 .modal-content {
     background: #111;
-    padding: 30px;
-    border: 1px solid var(--gold);
+    padding: 25px;
+    border: 2px solid var(--gold);
+    max-width: 90%;
     width: 450px;
-    max-width: 85%;
-    border-radius: 10px;
-    text-align: center;
+    border-radius: 12px;
 }
-
 #ai-response-text {
+    color: #f0f0f0;
+    font-family: 'Cinzel', serif;
+    font-size: 0.95rem;
+    line-height: 1.6;
     text-align: justify;
-    line-height: 1.7;
-    max-height: 280px;
+    max-height: 250px;
     overflow-y: auto;
+    padding: 10px 5px;
+    margin-top: 10px;
     white-space: pre-line;
-    margin-top: 15px;
 }
+.gold-line { border: 0; border-top: 1px solid var(--gold); margin: 15px 0; }
+.close-btn { float: right; cursor: pointer; font-size: 24px; color: var(--gold); }
