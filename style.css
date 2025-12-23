@@ -5,7 +5,7 @@
 
 body {
     background-color: var(--dark-bg);
-    background-image: url('assets/images/your-new-bg.jpg'); /* File name check kar lena */
+    background-image: url('TarotReader.png'); 
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center top;
