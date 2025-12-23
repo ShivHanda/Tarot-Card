@@ -6,7 +6,7 @@
 body {
     /* Background fix: Image kategi nahi aur sides se dissolve hogi */
     background-color: #050505;
-    background-image: url('assets/images/TarotReader.jpg');
+    background-image: url('TarotReader.png');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center top;
