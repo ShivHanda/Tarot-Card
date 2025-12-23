@@ -1,181 +1,137 @@
 :root {
     --gold: #d4af37;
-    --dark-bg: #0a0a0c;
+    --dark-bg: #050505;
 }
 
 body {
-    /* Background color wahi rakhein jo image ke corners ka hai (Black ya Dark Purple) */
-    background-color: #050505; 
-    
-    /* Image ko center mein rakhein aur height wise fit karein */
-    background-image: url('assets/images/your-new-bg.jpg');
-    background-size: contain; /* Isse top-to-bottom puri image dikhegi */
+    background-color: var(--dark-bg);
+    background-image: url('assets/images/your-new-bg.jpg'); /* File name check kar lena */
+    background-size: contain;
     background-repeat: no-repeat;
-    background-position: center center;
+    background-position: center top;
     background-attachment: fixed;
-
-    /* Dissolve Effect: Sides ko fade karne ke liye ek overlay */
-    box-shadow: inset 0 0 100px 50px #0a0510; 
-    
     color: white;
     font-family: 'Cinzel', serif;
     margin: 0;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    height: 100vh;
+    overflow: hidden; /* Screen hilne se rokne ke liye */
 }
 
-/* Sides Dissolve Effect (Optional but better) */
-body::before {
+/* Character ke face se dissolve effect - fixed version */
+body::after {
     content: '';
     position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    /* Isse left aur right side se image dissolve hogi black/purple mein */
-    background: linear-gradient(to right, #050505, transparent 20%, transparent 80%, #0a0510);
-    pointer-events: none;
-    z-index: 1;
+    inset: 0;
+    /* Image ke sides ko dissolve karne ke liye */
+    background: linear-gradient(to right, var(--dark-bg) 0%, transparent 20%, transparent 80%, var(--dark-bg) 100%);
+    pointer-events: none; /* Isse clicks block nahi honge */
+    z-index: 2;
 }
 
 #app-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    z-index: 5;
 }
 
-.glow-text {
-    text-shadow: 0 0 15px var(--gold);
-    color: var(--gold);
-    letter-spacing: 3px;
-    margin-bottom: 5px;
-}
-
+/* SLOTS: Table ke upar horizontal alignment */
 #selection-area {
     position: absolute;
-    bottom: 15%; /* Muh se hata kar nichle hisse (table area) par */
+    bottom: 25%; /* Photo ke table height ke hisaab se ise 20% ya 30% kar sakte ho */
     left: 50%;
     transform: translateX(-50%);
-    gap: 30px;
+    display: flex; /* Dobara horizontal karne ke liye */
+    flex-direction: row;
+    gap: 40px;
 }
 
 .slot {
-    width: 80px;
-    height: 130px;
+    width: 90px;
+    height: 140px;
     border: 1.5px solid var(--gold);
-    background: rgba(212, 175, 55, 0.1); /* Halka gold tint */
+    background: rgba(212, 175, 55, 0.05);
     border-radius: 8px;
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+    position: relative;
+    display: flex;
+    justify-content: center;
 }
 
+/* Past, Present, Future Labels */
+.slot::after {
+    content: attr(data-label);
+    position: absolute;
+    bottom: -25px;
+    color: var(--gold);
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+}
+
+/* DECK: Niche se spread hoke aayega */
 #deck-container {
     position: absolute;
-    bottom: -50px; /* Bilkul screen ke bottom par taaki wo hath ke paas lagein */
+    bottom: -40px; 
+    left: 50%;
+    transform: translateX(-50%);
     width: 100%;
-    perspective: 1000px;
+    height: 200px;
+    perspective: 1200px;
 }
 
-/* Card Style */
 .card {
     position: absolute;
-    width: 65px;
-    height: 110px;
+    width: 70px;
+    height: 120px;
     left: 50%;
-    margin-left: -32.5px;
     cursor: pointer;
+    transition: all 0.6s ease;
     z-index: 10;
-    transform-style: preserve-3d;
-    /* Transition from code 1 + cursor from code 2 */
-    transition: all 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.card-face {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    border-radius: 6px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-    border: 1px solid rgba(212, 175, 55, 0.3);
+/* INSTRUCTIONS: Bottom Left Box */
+#instructions {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    width: 250px;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.85);
+    border-left: 3px solid var(--gold);
+    border-radius: 4px;
+    font-size: 0.85rem;
+    text-align: left;
+    z-index: 100;
+    backdrop-filter: blur(8px);
 }
 
-.card-face img {
-    width: 100%;
-    height: 100%;
-    border-radius: 6px;
-    object-fit: cover;
-}
-
-.card-front {
-    transform: rotateY(180deg);
-}
-
-.card.is-flipped {
-    transform: rotateY(180deg);
-}
-
-/* Modal Layering */
+/* MODAL: Results area */
 .modal {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.9);
+    background: rgba(0,0,0,0.92);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 10000; /* Sabse upar */
+    z-index: 10000;
 }
 
 .modal.hidden { display: none; }
 
 .modal-content {
     background: #111;
-    padding: 25px;
-    border: 2px solid var(--gold);
-    max-width: 90%;
+    padding: 30px;
+    border: 1px solid var(--gold);
     width: 450px;
-    border-radius: 12px;
-}
-
-#instructions {
-    position: fixed;
-    bottom: 30px;
-    left: 30px;
-    width: 280px;
-    padding: 15px;
-    background: rgba(10, 10, 15, 0.8); /* Dark mystical translucent background */
-    border-left: 3px solid var(--gold); /* Side mein gold line */
-    border-radius: 5px;
-    font-size: 0.9rem;
-    color: #e0e0e0;
-    text-align: left;
-    z-index: 100; /* Taaki cards ke niche na dab jaye */
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(5px); /* Premium glass effect */
-}
-
-/* AI Reading Text Area */
-#ai-response-text {
-    color: #f0f0f0;
-    font-family: 'Cinzel', serif;
-    font-size: 0.95rem;
-    line-height: 1.6;
-    text-align: justify; 
-    max-height: 250px; /* Isse zyada bada hua toh scrollbar aa jayega */
-    overflow-y: auto;  /* Scrolling enabled */
-    padding: 10px 5px;
-    margin-top: 10px;
-    white-space: pre-line; /* Paragraphs aur line breaks ko respect karega */
-}
-
-/* Scrollbar ko thoda gold look dene ke liye (Optional par cool hai) */
-#ai-response-text::-webkit-scrollbar {
-    width: 4px;
-}
-
-#ai-response-text::-webkit-scrollbar-thumb {
-    background: var(--gold);
+    max-width: 85%;
     border-radius: 10px;
+    text-align: center;
 }
 
-.gold-line { border: 0; border-top: 1px solid var(--gold); margin: 15px 0; }
-.close-btn { float: right; cursor: pointer; font-size: 24px; color: var(--gold); }
+#ai-response-text {
+    text-align: justify;
+    line-height: 1.7;
+    max-height: 280px;
+    overflow-y: auto;
+    white-space: pre-line;
+    margin-top: 15px;
+}
