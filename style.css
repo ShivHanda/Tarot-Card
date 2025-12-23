@@ -1,11 +1,11 @@
 :root {
     --gold: #d4af37;
-    --dark-bg: #050505;
+    --dark-bg: #0a0a0c;
 }
 
 body {
     /* Background fix: Image kategi nahi aur sides se dissolve hogi */
-    background-color: #050505;
+    background-color: #0a0510;
     background-image: url('TarotReader.png');
     background-size: contain;
     background-repeat: no-repeat;
@@ -25,7 +25,7 @@ body::after {
     content: '';
     position: fixed;
     inset: 0;
-    background: linear-gradient(to right, #050505 0%, transparent 20%, transparent 80%, #050505 100%);
+    background: linear-gradient(to right, #050505 0%, transparent 20%, transparent 80%, #0a0510 100%);
     pointer-events: none;
     z-index: 1;
 }
@@ -35,15 +35,19 @@ body::after {
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    position: relative;
-    z-index: 5;
 }
 
-/* Baaki saara card/slot code WAHI HAI jo tune diya tha (Unchanged) */
+.glow-text {
+    text-shadow: 0 0 15px var(--gold);
+    color: var(--gold);
+    letter-spacing: 3px;
+    margin-bottom: 5px;
+}
+
 #selection-area {
     display: flex;
     gap: 15px;
-    margin-top: 250px; /* Character ke face se niche laane ke liye bas margin badhaya hai */
+    margin: 20px 0;
     z-index: 5;
 }
 
@@ -51,7 +55,7 @@ body::after {
     width: 80px;
     height: 130px;
     border: 1.5px solid var(--gold);
-    background: rgba(212, 175, 55, 0.1);
+    background: rgba(212, 175, 55, 0.1); /* Halka gold tint */
     border-radius: 8px;
     box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
 }
@@ -64,6 +68,7 @@ body::after {
     perspective: 1000px;
 }
 
+/* Card Style */
 .card {
     position: absolute;
     width: 65px;
@@ -73,6 +78,7 @@ body::after {
     cursor: pointer;
     z-index: 10;
     transform-style: preserve-3d;
+    /* Transition from code 1 + cursor from code 2 */
     transition: all 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
@@ -93,25 +99,15 @@ body::after {
     object-fit: cover;
 }
 
-.card-front { transform: rotateY(180deg); }
-.card.is-flipped { transform: rotateY(180deg); }
-
-/* Nayi Instructions: Bottom Left Box */
-#instructions {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    width: 220px; /* Chota box */
-    padding: 12px;
-    background: rgba(0, 0, 0, 0.8);
-    border-left: 2px solid var(--gold);
-    font-size: 0.8rem;
-    text-align: left;
-    z-index: 1000;
-    backdrop-filter: blur(5px);
+.card-front {
+    transform: rotateY(180deg);
 }
 
-/* Modal and AI Response (Unchanged from your working code) */
+.card.is-flipped {
+    transform: rotateY(180deg);
+}
+
+/* Modal Layering */
 .modal {
     position: fixed;
     inset: 0;
@@ -119,9 +115,11 @@ body::after {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 10000;
+    z-index: 10000; /* Sabse upar */
 }
+
 .modal.hidden { display: none; }
+
 .modal-content {
     background: #111;
     padding: 25px;
@@ -130,17 +128,30 @@ body::after {
     width: 450px;
     border-radius: 12px;
 }
+
+/* AI Reading Text Area */
 #ai-response-text {
     color: #f0f0f0;
     font-family: 'Cinzel', serif;
     font-size: 0.95rem;
     line-height: 1.6;
-    text-align: justify;
-    max-height: 250px;
-    overflow-y: auto;
+    text-align: justify; 
+    max-height: 250px; /* Isse zyada bada hua toh scrollbar aa jayega */
+    overflow-y: auto;  /* Scrolling enabled */
     padding: 10px 5px;
     margin-top: 10px;
-    white-space: pre-line;
+    white-space: pre-line; /* Paragraphs aur line breaks ko respect karega */
 }
+
+/* Scrollbar ko thoda gold look dene ke liye (Optional par cool hai) */
+#ai-response-text::-webkit-scrollbar {
+    width: 4px;
+}
+
+#ai-response-text::-webkit-scrollbar-thumb {
+    background: var(--gold);
+    border-radius: 10px;
+}
+
 .gold-line { border: 0; border-top: 1px solid var(--gold); margin: 15px 0; }
 .close-btn { float: right; cursor: pointer; font-size: 24px; color: var(--gold); }
