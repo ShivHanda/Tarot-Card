@@ -76,7 +76,7 @@ function handleCardClick(cardElement, cardName) {
     const moveX = slotRect.left - (window.innerWidth / 2) + (slotRect.width / 2); 
     
     // 3. Deck container se slot kitna upar hai
-    const moveY = slotRect.top - deckRect.top +10;
+    const moveY = slotRect.top - deckRect.top;
 
     cardElement.style.zIndex = 1000 + slotIdx;
     
