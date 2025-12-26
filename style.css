@@ -62,6 +62,7 @@ body::after {
 }
 
 #selection-area {
+    left: 90%;
     display: flex;
     gap: 15px;
     margin: 20px 0;
