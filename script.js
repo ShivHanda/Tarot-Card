@@ -50,7 +50,7 @@ function renderDeck() {
         setTimeout(() => {
             const total = allCards.length;
             const center = total / 2;
-            const angle = (index - center) * 2;
+            const angle = (index - center) * 1.5;
             const xPos = (index - center) * 4;
             const yPos = Math.abs(index - center) * 0.5;
             cardDiv.style.transform = `translateX(${xPos}px) translateY(${yPos-4}px) rotate(${angle}deg)`;
