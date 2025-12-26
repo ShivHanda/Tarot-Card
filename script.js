@@ -51,7 +51,7 @@ function renderDeck() {
             const total = allCards.length;
             const center = total / 2;
             const angle = (index - center) * 2.2;
-            const xPos = (index - center) * 20;
+            const xPos = (index - center) * 5;
             cardDiv.style.transform = `translateX(${xPos}px) rotate(${angle}deg)`;
         }, 500); 
     });
