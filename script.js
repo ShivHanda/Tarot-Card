@@ -13,7 +13,7 @@ async function initDeck() {
         const response = await fetch('cards.json');
         allCards = await response.json();
         shuffle(allCards);
-        renderDeck();
+        Deck();
     } catch (err) {
         console.error("Error:", err);
         instructions.innerText = "Check your cards.json or paths!";
@@ -46,15 +46,22 @@ function renderDeck() {
         cardDiv.onclick = () => handleCardClick(cardDiv, cardName);
         deckContainer.appendChild(cardDiv);
 
-        setTimeout(() => {
-            const total = allCards.length;
-            const angleSpacing = 1.5; 
-            const angle = (index - total / 2) * angleSpacing;
-            const yPos = Math.abs(index - total / 2) * 2; 
-            const xPos = (index - total / 2) * 12; 
+       // script.js -> renderDeck function ke andar wala loop
 
-            cardDiv.style.transform = `translateX(${xPos}px) translateY(${yPos}px) rotate(${angle}deg)`;
-        }, 500);
+    // Loop ke andar ye logic replace karo:
+            setTimeout(() => {
+                const total = allCards.length;
+                const center = total / 2;
+                const angleSpacing = 1.8; 
+                const angle = (index - center) * angleSpacing;
+                const xPos = (index - center) * 10; 
+                const yPos = Math.abs(index - center) * 1; 
+                cardDiv.style.transform = `
+                    translateX(${xPos}px) 
+                    translateY(${yPos}px) 
+                    rotate(${angle}deg)
+                `;
+            }, 500);
     });
 }
 
