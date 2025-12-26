@@ -13,7 +13,7 @@ async function initDeck() {
         const response = await fetch('cards.json');
         allCards = await response.json();
         shuffle(allCards);
-        Deck();
+        renderDeck();
     } catch (err) {
         console.error("Error:", err);
         instructions.innerText = "Check your cards.json or paths!";
@@ -46,22 +46,14 @@ function renderDeck() {
         cardDiv.onclick = () => handleCardClick(cardDiv, cardName);
         deckContainer.appendChild(cardDiv);
 
-       // script.js -> renderDeck function ke andar wala loop
-
-    // Loop ke andar ye logic replace karo:
-            setTimeout(() => {
-                const total = allCards.length;
-                const center = total / 2;
-                const angleSpacing = 1.8; 
-                const angle = (index - center) * angleSpacing;
-                const xPos = (index - center) * 10; 
-                const yPos = Math.abs(index - center) * 1; 
-                cardDiv.style.transform = `
-                    translateX(${xPos}px) 
-                    translateY(${yPos}px) 
-                    rotate(${angle}deg)
-                `;
-            }, 500);
+        // Chota sa delay taaki stack se fan bante hue dikhe
+        setTimeout(() => {
+            const total = allCards.length;
+            const angle = (index - total/2) * 2;
+            const xPos = (index - total/2) * 4;
+            const yPos = Math.abs(index - total/2) * 0.5;
+            cardDiv.style.transform = `translateX(${xPos}px) translateY(${yPos}px) rotate(${angle}deg)`;
+        }, 500); // 0.5 second baad fan phelega
     });
 }
 
@@ -81,10 +73,10 @@ function handleCardClick(cardElement, cardName) {
     // --- MAGIC CALCULATION ---
     // 1. Hum slot ki position lete hain screen ke center ke hisaab se
     // 2. 35 isliye kyunki card width (70px) ka aadha hai, taaki center match ho
-    const moveX = slotRect.left - (window.innerWidth / 2) + (slotRect.width / 2) ; 
+    const moveX = slotRect.left - (window.innerWidth / 2) + (slotRect.width / 2) + 8; 
     
     // 3. Deck container se slot kitna upar hai
-    const moveY = slotRect.top - deckRect.top ;
+    const moveY = slotRect.top - deckRect.top + 10;
 
     cardElement.style.zIndex = 1000 + slotIdx;
     
