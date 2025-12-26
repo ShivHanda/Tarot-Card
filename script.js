@@ -50,8 +50,8 @@ function renderDeck() {
         setTimeout(() => {
             const total = allCards.length;
             const center = total / 2;
-            const angle = (index - center) * 1.5;
-            const xPos = (index - center) * 5;
+            const angle = (index - center) * 2.2;
+            const xPos = (index - center) * 20;
             cardDiv.style.transform = `translateX(${xPos}px) rotate(${angle}deg)`;
         }, 500); 
     });
@@ -76,7 +76,7 @@ function handleCardClick(cardElement, cardName) {
     const moveX = slotRect.left - (window.innerWidth / 2) + (slotRect.width / 2); 
     
     // 3. Deck container se slot kitna upar hai
-    const moveY = slotRect.top - deckRect.top - 10;
+    const moveY = slotRect.top - deckRect.top - 11;
 
     cardElement.style.zIndex = 1000 + slotIdx;
     
