@@ -48,13 +48,13 @@ function renderDeck() {
 
         setTimeout(() => {
             const total = allCards.length;
-    
-            const angle = (index - total/2) * 5; 
-            const xPos = (index - total/2) * 20;  
-            const yPos = Math.abs(index - total/2) * 5; 
-    
+            const angleSpacing = 1.5; 
+            const angle = (index - total / 2) * angleSpacing;
+            const yPos = Math.abs(index - total / 2) * 2; 
+            const xPos = (index - total / 2) * 12; 
+
             cardDiv.style.transform = `translateX(${xPos}px) translateY(${yPos}px) rotate(${angle}deg)`;
-        }, 500); 
+        }, 500);
     });
 }
 
