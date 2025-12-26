@@ -98,8 +98,9 @@ body::after {
     cursor: pointer;
     z-index: 10;
     transform-style: preserve-3d;
-    transform-origin: 50% 200%;
+    transform-origin: center -50% 200%;
     transition: all 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    pointer-events: auto;
 }
 
 .card-face {
