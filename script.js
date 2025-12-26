@@ -46,14 +46,15 @@ function renderDeck() {
         cardDiv.onclick = () => handleCardClick(cardDiv, cardName);
         deckContainer.appendChild(cardDiv);
 
-        // Chota sa delay taaki stack se fan bante hue dikhe
         setTimeout(() => {
             const total = allCards.length;
-            const angle = (index - total/2) * 2;
-            const xPos = (index - total/2) * 4;
-            const yPos = Math.abs(index - total/2) * 0.5;
+    
+            const angle = (index - total/2) * 5; 
+            const xPos = (index - total/2) * 20;  
+            const yPos = Math.abs(index - total/2) * 5; 
+    
             cardDiv.style.transform = `translateX(${xPos}px) translateY(${yPos}px) rotate(${angle}deg)`;
-        }, 500); // 0.5 second baad fan phelega
+        }, 500); 
     });
 }
 
