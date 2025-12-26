@@ -80,7 +80,7 @@ body::after {
 
 #deck-container {
     position: absolute;
-    bottom: 0px; 
+    bottom: -50px; 
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
@@ -99,8 +99,8 @@ body::after {
     cursor: pointer;
     z-index: 10;
     transform-style: preserve-3d;
-    transform-origin: center 50% 200%;
-    transition: all 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-origin: 50% 250%;
+    transition: all 0.5s ease-out;
     pointer-events: auto;
 }
 
