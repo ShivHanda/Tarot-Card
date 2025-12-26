@@ -51,8 +51,9 @@ function renderDeck() {
             const total = allCards.length;
             const center = total / 2;
             const angle = (index - total/2) * 2;
-            const xPos = (index - center) * 10;
-            cardDiv.style.transform = `translateX(${xPos}px) rotate(${angle}deg)`;
+            const xPos = (index - center) * 4;
+            const yPos = Math.abs(index - center) * 0.5;
+            cardDiv.style.transform = `translateX(${xPos}px) translateY(${yPos}px) rotate(${angle}deg)`;
         }, 500); 
     });
 }
