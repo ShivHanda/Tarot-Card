@@ -50,9 +50,11 @@ function renderDeck() {
         setTimeout(() => {
             const total = allCards.length;
             const center = total / 2;
-            const angle = (index - center) * 0.8;
-            const xPos = (index - center) * 7;
-            cardDiv.style.transform = `translateX(${xPos}px) rotate(${angle}deg)`;
+            const i = index - center;
+            const angle = i * -1;
+            const xPos = i * 5;
+            const yPos = -1 * (i * i) / 30;
+            cardDiv.style.transform = `translateX(${xPos}px) translateY(${yPos}px) rotate(${angle}deg)`;
         }, 500); 
     });
 }
@@ -73,10 +75,10 @@ function handleCardClick(cardElement, cardName) {
     // --- MAGIC CALCULATION ---
     // 1. Hum slot ki position lete hain screen ke center ke hisaab se
     // 2. 35 isliye kyunki card width (70px) ka aadha hai, taaki center match ho
-    const moveX = slotRect.left - (window.innerWidth / 2) + (slotRect.width / 2); 
+    const moveX = slotRect.left - (window.innerWidth / 2) + (slotRect.width / 2)+8; 
     
     // 3. Deck container se slot kitna upar hai
-    const moveY = slotRect.top - deckRect.top - 11;
+    const moveY = slotRect.top - deckRect.top + 11;
 
     cardElement.style.zIndex = 1000 + slotIdx;
     
